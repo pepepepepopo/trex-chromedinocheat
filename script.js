@@ -1,4 +1,4 @@
-// ====== CREATE UI ======
+// ====== UI BASE ======
 const cheatUI = document.createElement("div");
 cheatUI.style.position = "fixed";
 cheatUI.style.top = "20px";
@@ -10,7 +10,7 @@ cheatUI.style.border = "2px solid lime";
 cheatUI.style.borderRadius = "10px";
 cheatUI.style.fontFamily = "monospace";
 cheatUI.style.color = "white";
-cheatUI.style.width = "160px";
+cheatUI.style.width = "180px";
 document.body.appendChild(cheatUI);
 
 function addButton(label, callback) {
@@ -88,7 +88,31 @@ addButton("Toggle Fly Mode", () => {
   alert(`Fly Mode: ${flyMode ? "ON" : "OFF"}`);
 });
 
-// ====== KEY LISTENER ======
+// ====== SCORE CHANGER ======
+const scoreInput = document.createElement("input");
+scoreInput.type = "number";
+scoreInput.placeholder = "Set Score";
+scoreInput.style.width = "100%";
+scoreInput.style.marginTop = "5px";
+scoreInput.style.padding = "5px";
+scoreInput.style.border = "1px solid lime";
+scoreInput.style.borderRadius = "5px";
+scoreInput.style.background = "#000";
+scoreInput.style.color = "lime";
+cheatUI.appendChild(scoreInput);
+
+addButton("Apply Score", () => {
+  const score = parseInt(scoreInput.value);
+  if (!isNaN(score)) {
+    Runner.instance_.distanceRan = score / Runner.instance_.distanceMeter.config.COEFFICIENT;
+    Runner.instance_.distanceMeter.set(score);
+    alert("Score set!");
+  } else {
+    alert("Invalid number");
+  }
+});
+
+// ====== KEYBINDS ======
 const keys = {};
 document.addEventListener("keydown", (e) => {
   keys[e.key.toLowerCase()] = true;
